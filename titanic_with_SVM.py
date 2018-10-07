@@ -19,16 +19,14 @@ X = df[df_features]
 X = pd.get_dummies(X, columns=['Sex'], drop_first=True)
 y = df['Survived']
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
-
 
 # DEFINING MODEL AND FIT
 titanic_model_svm = svm.SVC().fit(X,y)
-scores_svm = cross_val_score(titanic_model_svm, X_train, y_train, scoring='neg_mean_absolute_error')
+scores_svm = cross_val_score(titanic_model_svm, X, y, scoring='neg_mean_absolute_error')
 print(scores_svm)
 
 # PREDICTIONS FROM TRAIN DATA
-accuracy = titanic_model_svm.score(X_train, y_train)
+accuracy = titanic_model_svm.score(X, y)
 print('SVM Accuracy: {}'.format(accuracy))
 
 
