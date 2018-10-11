@@ -1,42 +1,70 @@
 import numpy as np
 import pandas as pd
 from sklearn import svm
-from sklearn.cross_validation import train_test_split
-from sklearn.model_selection import cross_val_score
 
 
 # READ TRAINING FILE
 df = pd.read_csv('input/train.csv')
+original_train_df = pd.DataFrame.copy(df)# Makes a copy of the original before we turn it into numbers
+df_features = ['Pclass', 'Sex', 'SibSp', 'Parch']
 
 
 # PREPROCESSING
-df['Fare'].fillna(value=df.Fare.median(), inplace=True)
-df['Age'].fillna(value=df.Age.median(), inplace=True)
-''' Fare and Age should contirbute greatly to the accuracy of the model, but for some reason makes
-	it worse. For now they have been droped from the features'''
-df_features = ['Pclass', 'Sex', 'SibSp', 'Parch']
+# Age
+#df_men = df[df.Sex=='male']
+#df_men['Age'].fillna(value=df_men['Age'].median(), inplace=True)
+#
+#df_women = df[df.Sex=='female']
+#df_women['Age'].fillna(value=df_women['Age'].median(), inplace=True)
+#
+#df = pd.concat([df_men,df_women])
+
+# Fare
+#df['Fare'].fillna(value=df.Fare.mean(), inplace=True)
+
+'''Even though the Age and Fare features has been preprocessed, Kaggle says the model is still
+ more accurate without these features. Will look into imporoving the preprocessing.'''
+
+
 X = df[df_features]
-X = pd.get_dummies(X, columns=['Sex'], drop_first=True)
 y = df['Survived']
+
+# One Hot Encoding
+X = pd.get_dummies(X, columns=['Sex'], drop_first=True)
 
 
 # DEFINING MODEL AND FIT
 titanic_model_svm = svm.SVC().fit(X,y)
-scores_svm = cross_val_score(titanic_model_svm, X, y, scoring='neg_mean_absolute_error')
-print(scores_svm)
+
 
 # PREDICTIONS FROM TRAIN DATA
 accuracy = titanic_model_svm.score(X, y)
-print('SVM Accuracy: {}'.format(accuracy))
+print('SVM Train Accuracy: {}'.format(accuracy))
 
+
+# READING TEST DATA
+test = pd.read_csv('input/test.csv')
+
+
+# PREPROCESSING TEST DATA
+# Age
+#test_men = test[test.Sex=='male']
+#test_men['Age'].fillna(value=test_men['Age'].median(), inplace=True)
+#
+#test_women = test[test.Sex=='female']
+#test_women['Age'].fillna(value=test_women['Age'].median(), inplace=True)
+#
+#test = pd.concat([test_men,test_women])
+
+# Fare
+#test_X['Fare'].fillna(value=test_X.Fare.mean(), inplace=True)
+
+test_X = test[df_features]
+
+# One Hot Encoding
+test_X = pd.get_dummies(test_X, columns=['Sex'], drop_first=True)
 
 # PREDICTIONS FROM TEST DATA
-test = pd.read_csv('input/test.csv')
-test_X = test[df_features]
-test_X = pd.get_dummies(test_X, columns=['Sex'], drop_first=True)
-#test_X['Age'].fillna(value=test_X.Age.median(), inplace=True)
-#test_X['Fare'].fillna(value=test_X.Fare.median(), inplace=True)
-
 predicted_survival_svm = titanic_model_svm.predict(test_X)
 
 
