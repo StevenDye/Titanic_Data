@@ -266,20 +266,11 @@ test <- full[892:1309,]
 # Set a random seed
 set.seed(754)
 
-# Build the model (note: not all possible variables are used)
-#rf_model <- randomForest(factor(Survived) ~ Pclass + Sex + SibSp + Parch + 
-#                           Fare + Embarked + Title + Age +  
-#                           FsizeD + Child + Mother,
-#                         data = train)
-
 
 # Build the model (note: not all possible variables are used)
 rf_model <- randomForest(factor(Survived) ~ Pclass + Avg.Fare + Ticket.Party.Size + Title +
                            Child + Mother,
                          data = train)
-
-
-# FsizeD and Emabarked are bad
 
 # Show model error
 plot(rf_model, ylim=c(0,0.36))
