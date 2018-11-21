@@ -1,5 +1,5 @@
 # Titanic Survival Data
-This repository analizes the passenger data of the Titanic crash. The data is analyzed with a Decision Tree model written in R and a SVM model written in Python.
+This repository analizes the passenger data of the Titanic crash. The data is analyzed with a Random Forest model written in R and a SVM model written in Python.
 
 Analyzing the Titanic data with a Support Vector Machine model
 
