@@ -1,4 +1,6 @@
-# Titanic with SVM
+# Titanic Survival Data
+This repository analizes the passenger data of the Titanic crash. The data is analyzed with a Decision Tree model written in R and a SVM model written in Python.
+
 Analyzing the Titanic data with a Support Vector Machine model
 
 Goal: Predict if a passenger survived the sinking of the Titanic or not. For each PassengerId in the test set, you must predict a 0 or 1 value for the Survived variable.
